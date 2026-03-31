@@ -10,6 +10,7 @@ pipeline {
         KATALON_API_KEY = credentials('katalon-api-key')
         KATALON_PROJECT  = 'RESPONSE.prj'
         KATALON_SUITE    = 'Test Suites/Headless-QA'
+        KATALON_SUITE_TYPE = 'collection'
         KATALON_BROWSER  = 'Chrome (headless)'
     }
 
@@ -48,8 +49,7 @@ pipeline {
                       -noSplash \
                       -runMode=console \
                       -projectPath="$WORKSPACE/$KATALON_PROJECT" \
-                      -testSuitePath="$KATALON_SUITE" \
-                      -browserType="$KATALON_BROWSER" \
+                      -testSuiteCollectionPath="$KATALON_SUITE" \
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
                       -retry=0
