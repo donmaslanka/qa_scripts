@@ -1,0 +1,31 @@
+# Katalon generated output - never commit these
+Reports/
+temp_profiles/
+Screenshots/
+failedLogs/
+retriedLogs/
+
+# Logs
+*.log
+replay_*.log
+hs_err_*.log
+
+# Build artifacts
+bin/
+.gradle/
+build/
+output/
+!output/.gitkeep
+
+# IDE / project files
+.classpath
+.project
+.cache/
+.idea/
+.settings/
+
+# Katalon internal libs (downloaded at runtime)
+Libs/
+
+# Drivers (downloaded at runtime)
+Drivers/
