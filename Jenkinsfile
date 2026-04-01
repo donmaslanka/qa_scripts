@@ -45,6 +45,9 @@ pipeline {
                 sh '''
                     set -eux
 
+                    # Clean any leftover Katalon workspace artifacts from prior runs
+                    rm -rf "$WORKSPACE/workspace" || true
+
                     katalonc \
                       -noSplash \
                       -runMode=console \
@@ -53,9 +56,8 @@ pipeline {
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
                       -retry=0 \
-                      --config \
-                        -webui.autoUpdateDrivers=true \
-                        "-webui.chrome.additionCapabilities={'args':['--disable-dev-shm-usage','--no-sandbox','--disable-gpu','--disable-extensions','--js-flags=--max-old-space-size=256']}"
+                      --config -webui.autoUpdateDrivers=true \
+                      "-chromiumOptions=--disable-dev-shm-usage,--no-sandbox,--disable-gpu,--disable-extensions"
                 '''
             }
         }
@@ -69,6 +71,7 @@ pipeline {
             sh '''
                 echo "=== Post-build cleanup ==="
                 rm -rf "$WORKSPACE/Reports" || true
+                rm -rf "$WORKSPACE/workspace" || true
                 rm -rf "$WORKSPACE/Libs/Temp*" || true
                 rm -rf /tmp/session-* || true
                 echo "Cleanup complete. Disk usage:"
