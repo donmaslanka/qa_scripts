@@ -45,9 +45,6 @@ pipeline {
                 sh '''
                     set -eux
 
-                    # Clean any leftover Katalon workspace artifacts from prior runs
-                    rm -rf "$WORKSPACE/workspace" || true
-
                     katalonc \
                       -noSplash \
                       -runMode=console \
@@ -55,9 +52,7 @@ pipeline {
                       -testSuiteCollectionPath="$KATALON_SUITE" \
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
-                      -retry=0 \
-                      --config -webui.autoUpdateDrivers=true \
-                      "-chromiumOptions=--disable-dev-shm-usage,--no-sandbox,--disable-gpu,--disable-extensions"
+                      -retry=0
                 '''
             }
         }
