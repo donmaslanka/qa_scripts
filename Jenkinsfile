@@ -52,7 +52,10 @@ pipeline {
                       -testSuiteCollectionPath="$KATALON_SUITE" \
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
-                      -retry=0
+                      -retry=0 \
+                      --config \
+                        -webui.autoUpdateDrivers=true \
+                        "-webui.chrome.additionCapabilities={'args':['--disable-dev-shm-usage','--no-sandbox','--disable-gpu','--disable-extensions','--js-flags=--max-old-space-size=256']}"
                 '''
             }
         }
