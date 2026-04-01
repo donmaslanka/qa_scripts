@@ -65,6 +65,15 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'Reports/**/*,report/**/*,reports/**/*', allowEmptyArchive: true
             junit testResults: '**/*.xml', allowEmptyResults: true
+            // Clean up disk-heavy generated folders after archiving
+            sh '''
+                echo "=== Post-build cleanup ==="
+                rm -rf "$WORKSPACE/Reports" || true
+                rm -rf "$WORKSPACE/Libs/Temp*" || true
+                rm -rf /tmp/session-* || true
+                echo "Cleanup complete. Disk usage:"
+                df -h /
+            '''
         }
         success {
             echo 'Katalon execution completed successfully.'
