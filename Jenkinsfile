@@ -7,10 +7,9 @@ pipeline {
     }
 
     environment {
-        KATALON_API_KEY = credentials('katalon-api-key')
+        KATALON_API_KEY  = credentials('katalon-api-key')
         KATALON_PROJECT  = 'RESPONSE.prj'
-        KATALON_SUITE    = 'Test Suites/Headless-PROD'
-        KATALON_BROWSER  = 'Chrome'
+        KATALON_SUITE    = 'Test Suites/Headless-QA'
     }
 
     stages {
@@ -33,7 +32,6 @@ pipeline {
                     which java || true
                     java -version || true
                     which katalonc || true
-
                     test -f "$WORKSPACE/$KATALON_PROJECT"
                 '''
             }
@@ -48,8 +46,7 @@ pipeline {
                       -noSplash \
                       -runMode=console \
                       -projectPath="$WORKSPACE/$KATALON_PROJECT" \
-                      -testSuitePath="$KATALON_SUITE" \
-                      -browserType="$KATALON_BROWSER" \
+                      -testSuiteCollectionPath="$KATALON_SUITE" \
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
                       -retry=0
@@ -60,8 +57,16 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'Reports/**/*,report/**/*,reports/**/*', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'Reports/**/*', allowEmptyArchive: true
             junit testResults: '**/*.xml', allowEmptyResults: true
+            sh '''
+                echo "=== Post-build cleanup ==="
+                rm -rf "$WORKSPACE/Reports"        || true
+                rm -rf "$WORKSPACE/workspace"      || true
+                rm -rf "$WORKSPACE/Libs/Temp*"     || true
+                rm -rf /tmp/session-*              || true
+                echo "Disk: $(df -h / | tail -1)"
+            '''
         }
         success {
             echo 'Katalon execution completed successfully.'
