@@ -46,6 +46,8 @@ pipeline {
                     # These cause "workspace overlaps" error if committed by client
                     rm -f "$WORKSPACE/.project"
                     rm -f "$WORKSPACE/.classpath"
+                    # Remove leftover Eclipse workspace dir from prior runs
+                    rm -rf "$WORKSPACE/workspace"
 
                     katalonc \
                       -noSplash \
