@@ -42,6 +42,11 @@ pipeline {
                 sh '''
                     set -eux
 
+                    # Remove Eclipse project files with hardcoded Windows paths
+                    # These cause "workspace overlaps" error if committed by client
+                    rm -f "$WORKSPACE/.project"
+                    rm -f "$WORKSPACE/.classpath"
+
                     katalonc \
                       -noSplash \
                       -runMode=console \

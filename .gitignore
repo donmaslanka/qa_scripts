@@ -15,4 +15,12 @@ build
 
 .cache
 /.idea/
+
+# Katalon/Eclipse generated runtime files - never commit
+.settings/
+workspace/
+temp_profiles/
+retriedLogs/
+failedLogs/
+Screenshots/
 .claude/worktrees/
