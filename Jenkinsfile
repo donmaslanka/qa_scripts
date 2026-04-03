@@ -56,7 +56,8 @@ pipeline {
                       -testSuiteCollectionPath="$KATALON_SUITE" \
                       -apiKey="$KATALON_API_KEY" \
                       -orgID="2333388" \
-                      -retry=0
+                      -retry=0 \
+                      -data /tmp/katalon-eclipse-ws
                 '''
             }
         }
